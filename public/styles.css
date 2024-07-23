@@ -1,0 +1,44 @@
+/* public/styles.css */
+body {
+  font-family: Arial, sans-serif;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+form {
+  margin-bottom: 20px;
+}
+
+input[type="url"] {
+  width: 300px;
+  padding: 5px;
+}
+
+button {
+  padding: 5px 10px;
+}
+
+.result-container {
+  background-color: #f0f0f0;
+  border-radius: 5px;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  margin-bottom: 10px;
+}
+
+h2 {
+  color: #333;
+}
+
+h3 {
+  color: #0066cc;
+}

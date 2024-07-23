@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Speed Results</title>
+    <link rel="stylesheet" href="/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<h1>Ushbu saytning tezligi</h1>
+
+<h2>Desktop uchun</h2>
+
+
+<div class="result-container">
+
+    <h3>Performance Score: <%= desktopResult.lighthouseResult.categories.performance.score * 100 %></h3>
+    <ul>
+        <li>First Contentful Paint: <%= desktopResult.lighthouseResult.audits['first-contentful-paint'].displayValue %></li>
+        <li>Speed Index: <%= desktopResult.lighthouseResult.audits['speed-index'].displayValue %></li>
+        <li>Time to Interactive: <%= desktopResult.lighthouseResult.audits['interactive'].displayValue %></li>
+    </ul>
+    <a href="/metrics-info">Bu statistika haqida to'liqroq ma'lumotga ega bo'lish</a>
+    <hr>
+    <canvas id="desktopChart" width="400" height="200"></canvas>
+</div>
+
+<h2>Mobile Results</h2>
+<div class="result-container">
+    <h3>Performance Score: <%= mobileResult.lighthouseResult.categories.performance.score * 100 %></h3>
+    <ul>
+        <li>First Contentful Paint: <%= mobileResult.lighthouseResult.audits['first-contentful-paint'].displayValue %></li>
+        <li>Speed Index: <%= mobileResult.lighthouseResult.audits['speed-index'].displayValue %></li>
+        <li>Time to Interactive: <%= mobileResult.lighthouseResult.audits['interactive'].displayValue %></li>
+    </ul>
+    <a href="/metrics-info">Bu statistika natijasi nimani anglatishi haqida to'liqroq ma'lumotga ega bo'lish</a>
+    <hr>
+    <canvas id="mobileChart" width="400" height="200"></canvas>
+</div>
+
+<a style="text-align: center" href="/" class="other-site">Boshqa saytni tekshirish.</a>
+
+
+<script>
+  const desktopData = {
+    labels: ['First Contentful Paint', 'Speed Index', 'Time to Interactive'],
+    datasets: [{
+      label: 'Desktop Metrics',
+      data: [
+          <%= desktopResult.lighthouseResult.audits['first-contentful-paint'].numericValue %>,
+          <%= desktopResult.lighthouseResult.audits['speed-index'].numericValue %>,
+          <%= desktopResult.lighthouseResult.audits['interactive'].numericValue %>
+      ],
+      backgroundColor: [
+        'rgba(255, 99, 132, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(75, 192, 192, 0.2)'
+      ],
+      borderColor: [
+        'rgba(255, 99, 132, 1)',
+        'rgba(54, 162, 235, 1)',
+        'rgba(75, 192, 192, 1)'
+      ],
+      borderWidth: 1
+    }]
+  };
+
+  const mobileData = {
+    labels: ['First Contentful Paint', 'Speed Index', 'Time to Interactive'],
+    datasets: [{
+      label: 'Mobile Metrics',
+      data: [
+          <%= mobileResult.lighthouseResult.audits['first-contentful-paint'].numericValue %>,
+          <%= mobileResult.lighthouseResult.audits['speed-index'].numericValue %>,
+          <%= mobileResult.lighthouseResult.audits['interactive'].numericValue %>
+      ],
+      backgroundColor: [
+        'rgba(255, 159, 64, 0.2)',
+        'rgba(153, 102, 255, 0.2)',
+        'rgba(255, 206, 86, 0.2)'
+      ],
+      borderColor: [
+        'rgba(255, 159, 64, 1)',
+        'rgba(153, 102, 255, 1)',
+        'rgba(255, 206, 86, 1)'
+      ],
+      borderWidth: 1
+    }]
+  };
+
+  const configDesktop = {
+    type: 'bar',
+    data: desktopData,
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  };
+
+  const configMobile = {
+    type: 'bar',
+    data: mobileData,
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  };
+
+  window.onload = function() {
+    const desktopCtx = document.getElementById('desktopChart').getContext('2d');
+    new Chart(desktopCtx, configDesktop);
+
+    const mobileCtx = document.getElementById('mobileChart').getContext('2d');
+    new Chart(mobileCtx, configMobile);
+  };
+
+  const toOtherSite = document.querySelector('.other-site')
+  toOtherSite.addEventListener('click', () => {
+    location.reload()
+  })
+</script>
+</body>
+</html>
